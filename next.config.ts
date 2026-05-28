@@ -4,7 +4,8 @@ const nextConfig: NextConfig = {
   output: "export",
   trailingSlash: true,
   images: { unoptimized: true },
-  basePath: process.env.NEXT_PUBLIC_BASE_PATH || "",
+  basePath: "/LIFE",
+  assetPrefix: "/LIFE",
 };
 
 export default nextConfig;
