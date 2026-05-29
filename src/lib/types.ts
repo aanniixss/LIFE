@@ -53,8 +53,8 @@ export const CATEGORY_LABELS: Record<string, string> = {
 }
 
 export const CATEGORY_COLORS: Record<string, string> = {
-  spiritual: "#D4AF37",
-  body: "#22c55e",
-  mind: "#3b82f6",
-  discipline: "#a855f7",
+  spiritual: "#DC143C",
+  body: "#FF4757",
+  mind: "#C41E3A",
+  discipline: "#FF6B35",
 }

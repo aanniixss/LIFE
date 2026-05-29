@@ -1,25 +1,45 @@
 @import "tailwindcss";
 
 :root {
+  /* Core */
   --bg: #080808;
-  --surface: #0f0f0f;
-  --surface-2: #161616;
-  --surface-3: #1c1c1c;
-  --gold: #D4AF37;
-  --gold-dim: rgba(212, 175, 55, 0.12);
-  --gold-border: rgba(212, 175, 55, 0.3);
-  --red: #ef4444;
-  --red-dim: rgba(239, 68, 68, 0.12);
+  --surface: rgba(255, 255, 255, 0.03);
+  --surface-2: rgba(255, 255, 255, 0.055);
+  --surface-3: rgba(255, 255, 255, 0.08);
+  --surface-solid: #0f0f0f;
+  --surface-solid-2: #161616;
+  --surface-solid-3: #1c1c1c;
+
+  /* Batman Red — primary accent */
+  --red: #DC143C;
+  --red-bright: #FF2052;
+  --red-dim: rgba(220, 20, 60, 0.09);
+  --red-border: rgba(220, 20, 60, 0.22);
+  --red-glow-sm: 0 0 10px rgba(220, 20, 60, 0.35);
+  --red-glow-md: 0 0 20px rgba(220, 20, 60, 0.45), 0 0 40px rgba(220, 20, 60, 0.2);
+  --red-glow-lg: 0 0 30px rgba(220, 20, 60, 0.55), 0 0 60px rgba(220, 20, 60, 0.28), 0 0 100px rgba(220, 20, 60, 0.12);
+
+  /* Legacy aliases → all point to red now */
+  --gold: #DC143C;
+  --gold-dim: rgba(220, 20, 60, 0.09);
+  --gold-border: rgba(220, 20, 60, 0.22);
+
+  /* Status */
   --green: #22c55e;
-  --green-dim: rgba(34, 197, 94, 0.12);
+  --green-dim: rgba(34, 197, 94, 0.1);
   --blue: #3b82f6;
   --purple: #a855f7;
-  --text: #f0f0f0;
-  --text-muted: #525252;
-  --text-dim: #3a3a3a;
-  --border: rgba(255, 255, 255, 0.07);
-  --border-hover: rgba(255, 255, 255, 0.14);
-  --radius: 12px;
+
+  /* Text */
+  --text: #F0F0F0;
+  --text-muted: #4a4a4a;
+  --text-dim: #2e2e2e;
+
+  /* Glass borders */
+  --border: rgba(255, 255, 255, 0.06);
+  --border-hover: rgba(220, 20, 60, 0.18);
+
+  --radius: 14px;
 }
 
 * { box-sizing: border-box; padding: 0; margin: 0; }
@@ -32,48 +52,77 @@ html, body {
   -webkit-font-smoothing: antialiased;
 }
 
-::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: #2a2a2a; border-radius: 2px; }
+/* Subtle scanline texture on body */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.15) 2px,
+    rgba(0, 0, 0, 0.15) 4px
+  );
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.4;
+}
 
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(220,20,60,0.3); border-radius: 2px; }
+
+/* ─── Glass Cards ─── */
 .card {
   background: var(--surface);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  transition: border-color 0.2s ease;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
 }
-.card:hover { border-color: var(--border-hover); }
-.card-gold {
-  border-color: var(--gold-border);
-  background: linear-gradient(135deg, var(--surface) 0%, rgba(212,175,55,0.03) 100%);
+.card:hover {
+  border-color: var(--border-hover);
+  box-shadow: 0 0 20px rgba(220, 20, 60, 0.08);
+}
+.card-gold, .card-red {
+  border-color: var(--red-border);
+  background: linear-gradient(135deg, rgba(220,20,60,0.06) 0%, rgba(8,8,8,0.5) 100%);
+  box-shadow: var(--red-glow-sm), inset 0 1px 0 rgba(255,255,255,0.04);
 }
 
+/* ─── Checkbox ─── */
 .habit-check {
   width: 20px;
   height: 20px;
-  border: 1.5px solid var(--border-hover);
+  border: 1.5px solid rgba(255,255,255,0.15);
   border-radius: 6px;
   background: transparent;
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: all 0.18s ease;
   flex-shrink: 0;
   appearance: none;
   -webkit-appearance: none;
 }
 .habit-check:checked {
-  background: var(--gold);
-  border-color: var(--gold);
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2 6l3 3 5-5' stroke='%23080808' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background: var(--red);
+  border-color: var(--red);
+  box-shadow: 0 0 10px rgba(220,20,60,0.5), 0 0 20px rgba(220,20,60,0.25);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2 6l3 3 5-5' stroke='%23fff' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: center;
+  animation: check-pop 0.2s ease;
 }
-.habit-check:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+.habit-check:focus-visible { outline: 2px solid var(--red); outline-offset: 2px; }
 
+/* ─── Modal ─── */
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.88);
-  backdrop-filter: blur(6px);
+  background: rgba(0, 0, 0, 0.92);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   z-index: 50;
   display: flex;
   align-items: center;
@@ -81,17 +130,64 @@ html, body {
   padding: 16px;
 }
 
-@keyframes pulse-red {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(239,68,68,0.35); }
-  50% { box-shadow: 0 0 0 10px rgba(239,68,68,0); }
+/* ─── Progress ─── */
+.progress-bar {
+  height: 3px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 2px;
+  overflow: hidden;
 }
-.btn-reset { animation: pulse-red 2.8s ease infinite; }
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #DC143C, #FF2052, #DC143C);
+  background-size: 200% 100%;
+  border-radius: 2px;
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: shimmer-red 2.5s linear infinite;
+  box-shadow: 0 0 8px rgba(220,20,60,0.6);
+}
+
+/* ─── Keyframes ─── */
+@keyframes bat-glow {
+  0%, 100% {
+    filter: drop-shadow(0 0 8px rgba(220,20,60,0.55)) drop-shadow(0 0 16px rgba(220,20,60,0.28));
+  }
+  50% {
+    filter: drop-shadow(0 0 22px rgba(220,20,60,1)) drop-shadow(0 0 44px rgba(220,20,60,0.55)) drop-shadow(0 0 70px rgba(220,20,60,0.28));
+  }
+}
+
+@keyframes pulse-red {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(220,20,60,0.4); }
+  50% { box-shadow: 0 0 0 10px rgba(220,20,60,0); }
+}
+.btn-reset { animation: pulse-red 2.5s ease infinite; }
+
+@keyframes check-pop {
+  0% { transform: scale(0.75); }
+  60% { transform: scale(1.18); }
+  100% { transform: scale(1); }
+}
+
+@keyframes glow-ring {
+  0%, 100% {
+    filter: drop-shadow(0 0 6px rgba(220,20,60,0.45));
+  }
+  50% {
+    filter: drop-shadow(0 0 18px rgba(220,20,60,0.9)) drop-shadow(0 0 35px rgba(220,20,60,0.45));
+  }
+}
+
+@keyframes shimmer-red {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
 
 @keyframes slide-up {
-  from { opacity: 0; transform: translateY(16px); }
+  from { opacity: 0; transform: translateY(18px); }
   to { opacity: 1; transform: translateY(0); }
 }
-.animate-slide-up { animation: slide-up 0.3s ease forwards; }
+.animate-slide-up { animation: slide-up 0.32s cubic-bezier(0.22,1,0.36,1) forwards; }
 
 @keyframes fade-in {
   from { opacity: 0; }
@@ -99,15 +195,21 @@ html, body {
 }
 .animate-fade-in { animation: fade-in 0.25s ease forwards; }
 
-.progress-bar {
-  height: 4px;
-  background: var(--surface-3);
-  border-radius: 2px;
-  overflow: hidden;
+@keyframes float-in {
+  from { opacity: 0; transform: translateY(8px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
 }
-.progress-fill {
-  height: 100%;
-  background: linear-gradient(90deg, var(--gold), #f0d060);
-  border-radius: 2px;
-  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+.animate-float-in { animation: float-in 0.35s cubic-bezier(0.22,1,0.36,1) forwards; }
+
+/* ─── Red glow text util ─── */
+.glow-text {
+  text-shadow: 0 0 20px rgba(220,20,60,0.7), 0 0 40px rgba(220,20,60,0.35);
+}
+
+/* ─── Reduced motion ─── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }

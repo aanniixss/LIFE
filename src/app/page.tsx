@@ -9,6 +9,7 @@ import HabitTracker from "@/components/HabitTracker"
 import ResetProtocol from "@/components/ResetProtocol"
 import GoalsTracker from "@/components/GoalsTracker"
 import DomainCards from "@/components/DomainCards"
+import BatmanLogo from "@/components/BatmanLogo"
 
 const TOTAL_WEIGHT = HABITS.reduce((s, h) => s + h.weight, 0)
 
@@ -103,79 +104,105 @@ export default function HomePage() {
   if (!mounted) {
     return (
       <div style={{ minHeight: "100dvh", display: "flex", alignItems: "center", justifyContent: "center" }}>
-        <div
-          style={{
-            width: 28,
-            height: 28,
-            borderRadius: "50%",
-            border: "2px solid var(--gold)",
-            borderTopColor: "transparent",
-            animation: "spin 0.8s linear infinite",
-          }}
-        />
-        <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+        <BatmanLogo size={56} animated />
       </div>
     )
   }
 
   return (
-    <main style={{ maxWidth: 480, margin: "0 auto", padding: "24px 16px 100px" }}>
+    <main style={{ maxWidth: 480, margin: "0 auto", padding: "24px 16px 110px", position: "relative", zIndex: 1 }}>
+
       {/* Header */}
-      <header className="flex items-center justify-between" style={{ marginBottom: 28 }}>
-        <div>
-          <h1 style={{ fontSize: 22, fontWeight: 800, letterSpacing: "-0.03em" }}>
-            LIFE <span style={{ color: "var(--gold)" }}>OS</span>
-          </h1>
-          <div className="flex items-center gap-1.5" style={{ marginTop: 3 }}>
-            <Calendar size={11} color="var(--text-muted)" />
-            <span style={{ fontSize: 12, color: "var(--text-muted)", textTransform: "capitalize" }}>
-              {formatDate()}
-            </span>
-          </div>
+      <header style={{ marginBottom: 28 }}>
+        {/* Batman logo centered */}
+        <div style={{ display: "flex", justifyContent: "center", marginBottom: 14 }}>
+          <BatmanLogo size={64} animated />
         </div>
 
-        <div className="flex items-center gap-2">
-          {resetCount > 0 && (
-            <span
+        <div className="flex items-center justify-between">
+          <div>
+            <h1
               style={{
-                fontSize: 11,
-                color: "var(--red)",
-                background: "var(--red-dim)",
-                border: "1px solid rgba(239,68,68,0.2)",
-                padding: "3px 8px",
-                borderRadius: 6,
+                fontSize: 26,
+                fontWeight: 700,
+                letterSpacing: "0.12em",
+                fontFamily: "var(--font-oswald), sans-serif",
+                color: "var(--text)",
               }}
             >
-              {resetCount} reset{resetCount > 1 ? "s" : ""}
-            </span>
-          )}
-          <div
-            className="flex items-center gap-1.5"
-            style={{
-              background: "var(--gold-dim)",
-              border: "1px solid var(--gold-border)",
-              padding: "5px 10px",
-              borderRadius: 8,
-            }}
-          >
-            <Flame size={13} color="var(--gold)" />
-            <span style={{ fontSize: 12, fontWeight: 600, color: "var(--gold)" }}>{totalStreak}</span>
+              LIFE{" "}
+              <span
+                className="glow-text"
+                style={{ color: "var(--red)" }}
+              >
+                OS
+              </span>
+            </h1>
+            <div className="flex items-center gap-1.5" style={{ marginTop: 3 }}>
+              <Calendar size={11} color="var(--text-muted)" />
+              <span style={{ fontSize: 11, color: "var(--text-muted)", textTransform: "capitalize" }}>
+                {formatDate()}
+              </span>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2">
+            {resetCount > 0 && (
+              <span
+                style={{
+                  fontSize: 11,
+                  color: "var(--red)",
+                  background: "var(--red-dim)",
+                  border: "1px solid var(--red-border)",
+                  padding: "3px 8px",
+                  borderRadius: 6,
+                }}
+              >
+                {resetCount} reset{resetCount > 1 ? "s" : ""}
+              </span>
+            )}
+            <div
+              className="flex items-center gap-1.5"
+              style={{
+                background: "var(--red-dim)",
+                border: "1px solid var(--red-border)",
+                padding: "6px 12px",
+                borderRadius: 8,
+                boxShadow: "var(--red-glow-sm)",
+              }}
+            >
+              <Flame size={13} color="var(--red)" />
+              <span
+                style={{ fontSize: 13, fontWeight: 700, color: "var(--red)", fontFamily: "var(--font-oswald), sans-serif" }}
+              >
+                {totalStreak}
+              </span>
+            </div>
           </div>
         </div>
       </header>
 
       {/* Score card */}
       <section
-        className="card card-gold flex items-center justify-between"
-        style={{ padding: "24px 28px", marginBottom: 12 }}
+        className="card card-red animate-float-in flex items-center justify-between"
+        style={{ padding: "24px 28px", marginBottom: 10 }}
       >
-        <ScoreRing score={score} size={110} />
+        <ScoreRing score={score} size={114} />
         <div className="flex flex-col items-end gap-4">
           <div style={{ textAlign: "right" }}>
-            <div style={{ fontSize: 12, color: "var(--text-muted)", marginBottom: 4 }}>Habitudes cochées</div>
-            <div style={{ fontSize: 22, fontWeight: 700 }}>
+            <div style={{ fontSize: 11, color: "var(--text-muted)", marginBottom: 4, letterSpacing: "0.08em" }}>
+              HABITUDES
+            </div>
+            <div
+              style={{
+                fontSize: 26,
+                fontWeight: 700,
+                fontFamily: "var(--font-oswald), sans-serif",
+                color: "var(--text)",
+              }}
+            >
               {Object.values(checked).filter(Boolean).length}
-              <span style={{ fontSize: 14, color: "var(--text-muted)", fontWeight: 400 }}>
+              <span style={{ fontSize: 15, color: "var(--text-muted)", fontWeight: 400 }}>
                 /{HABITS.length}
               </span>
             </div>
@@ -186,17 +213,18 @@ export default function HomePage() {
             className="btn-reset flex items-center gap-2"
             style={{
               background: "var(--red-dim)",
-              border: "1px solid rgba(239,68,68,0.35)",
+              border: "1px solid var(--red-border)",
               color: "var(--red)",
               padding: "10px 16px",
               borderRadius: 10,
-              fontSize: 12,
+              fontSize: 11,
               fontWeight: 700,
               cursor: "pointer",
-              letterSpacing: "0.08em",
+              letterSpacing: "0.12em",
+              fontFamily: "var(--font-oswald), sans-serif",
             }}
           >
-            <RefreshCw size={13} />
+            <RefreshCw size={12} />
             RESET
           </button>
         </div>
@@ -208,17 +236,17 @@ export default function HomePage() {
       </div>
 
       {/* Habits */}
-      <section style={{ marginBottom: 14 }}>
+      <section className="animate-slide-up" style={{ marginBottom: 14, animationDelay: "0.05s" }}>
         <HabitTracker checked={checked} onChange={handleHabitChange} streaks={streaks} />
       </section>
 
       {/* Goals */}
-      <section style={{ marginBottom: 14 }}>
+      <section className="animate-slide-up" style={{ marginBottom: 14, animationDelay: "0.1s" }}>
         <GoalsTracker goals={goals} onChange={handleGoalsChange} />
       </section>
 
       {/* Domains */}
-      <section>
+      <section className="animate-slide-up" style={{ animationDelay: "0.15s" }}>
         <DomainCards data={domain} onChange={handleDomainChange} />
       </section>
 
@@ -226,17 +254,29 @@ export default function HomePage() {
       <div
         style={{
           marginTop: 28,
-          padding: "16px",
-          background: "var(--gold-dim)",
-          border: "1px solid var(--gold-border)",
-          borderRadius: 10,
+          padding: "18px 20px",
+          background: "var(--red-dim)",
+          border: "1px solid var(--red-border)",
+          borderRadius: 12,
           fontSize: 12,
           color: "var(--text-muted)",
-          lineHeight: 1.8,
+          lineHeight: 1.9,
           textAlign: "center",
+          boxShadow: "var(--red-glow-sm)",
         }}
       >
-        <span style={{ color: "var(--gold)", fontWeight: 600 }}>Multimillionnaire. Alicante 2028.</span>
+        <span
+          className="glow-text"
+          style={{
+            color: "var(--red)",
+            fontWeight: 700,
+            fontFamily: "var(--font-oswald), sans-serif",
+            letterSpacing: "0.1em",
+            fontSize: 14,
+          }}
+        >
+          MULTIMILLIONNAIRE. ALICANTE 2028.
+        </span>
         <br />
         Plaire à Allah seul — pas le regard des gens.
       </div>
